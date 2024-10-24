@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -16,6 +17,5 @@ model TaskList {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@index([createdAt(sort: Desc)])
-
   @@map("task_lists")
 }

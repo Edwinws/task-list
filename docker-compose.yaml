@@ -20,7 +20,6 @@ services:
       - mysql
     volumes:
       - ./task-list-backend:/app
-    # command: ["pnpm", "run", "start:dev"]
     command: ["sh", "-c", "pnpm run db:generate && pnpm run start:dev"]
 volumes:
   mysql:
