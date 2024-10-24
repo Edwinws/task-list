@@ -1,9 +1,8 @@
 services:
   mysql:
     image: mysql:8.3
-    environment:
-      MYSQL_ROOT_PASSWORD: task_list_root
-      MYSQL_DATABASE: task_list
+    env_file:
+      - ./task-list-backend/.env
     volumes:
       - mysql:/var/lib/mysql/
     ports:
