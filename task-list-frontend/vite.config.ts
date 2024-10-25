@@ -10,7 +10,8 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      port: Number(port)
+      port: Number(port),
+      host: true,
     },
     plugins: [
       vue(),

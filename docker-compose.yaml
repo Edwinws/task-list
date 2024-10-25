@@ -21,5 +21,18 @@ services:
     volumes:
       - ./task-list-backend:/app
     command: ["sh", "-c", "pnpm run db:generate && pnpm run start:dev"]
+  task-list-frontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./task-list-frontend
+      target: development
+    links:
+      - task-list
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./task-list-frontend:/app
+      - /app/node_modules
+    command: ["sh", "-c", "pnpm run dev"]
 volumes:
   mysql:
