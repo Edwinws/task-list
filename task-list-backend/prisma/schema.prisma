@@ -10,12 +10,13 @@ datasource db {
 
 model Task {
   id          Int      @id @default(autoincrement())
-  Name        String
-  Description String
-  DueDate     DateTime
+  name        String   @map("name")
+  description String   @map("description")
+  dueDate     DateTime @map("due_date")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@index([createdAt(sort: Desc)])
+  @@index([updatedAt(sort: Desc)])
   @@map("tasks")
 }
