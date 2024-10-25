@@ -8,7 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TaskList {
+model Task {
   id          Int      @id @default(autoincrement())
   Name        String
   Description String
@@ -17,5 +17,5 @@ model TaskList {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@index([createdAt(sort: Desc)])
-  @@map("task_lists")
+  @@map("tasks")
 }

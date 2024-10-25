@@ -20,6 +20,9 @@ importers:
       '@prisma/client':
         specifier: 5.21.1
         version: 5.21.1(prisma@5.21.1)
+      prisma-pagination:
+        specifier: 0.1.5
+        version: 0.1.5
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.14
@@ -2234,6 +2237,9 @@ packages:
   pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+
+  prisma-pagination@0.1.5:
+    resolution: {integrity: sha512-7WWTOJovpEmz6ZBz2Ey9noF82VNFAtJGuYy2K2ok+5eDQnIdHmB3resqVDIQh7Sg9rnuth82T27xZ8uzp3JnIQ==}
 
   prisma@5.21.1:
     resolution: {integrity: sha512-PB+Iqzld/uQBPaaw2UVIk84kb0ITsLajzsxzsadxxl54eaU5Gyl2/L02ysivHxK89t7YrfQJm+Ggk37uvM70oQ==}
@@ -5412,6 +5418,8 @@ snapshots:
       '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
       react-is: 18.3.1
+
+  prisma-pagination@0.1.5: {}
 
   prisma@5.21.1:
     dependencies:
