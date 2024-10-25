@@ -44,7 +44,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get('http://localhost:3000/tasks');
+        const response = await axios.get(import.meta.env.VITE_BACKEND_BASE_URL + "/tasks");
         this.tasks = response.data.data;
         this.metas = response.data.meta;
       } catch (error) {
