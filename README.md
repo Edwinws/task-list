@@ -9,15 +9,17 @@
 
 Run these:
 
-- `cd task-list-backend && pnpm i`
+- `cd task-list-backend && pnpm i && cd ../task-list-frontend && pnpm i && cd ..`
 - `docker compose up`
 
 ## Start (Production build)
 
-- Update the `.env` to use the production string for `DATABASE_URL`
-- Run the following:
-  - `docker build -f Dockerfile-prod . -t task-list:latest`
-  - `docker run --env-file=./.env -p "3000:3000" task-list:latest`
+- Update the backend's `.env` to use the production string for `DATABASE_URL`
+- Run the following from the root folder:
+  - `docker build -f task-list-backend/Dockerfile-prod ./task-list-backend -t task-list:latest`
+  - `docker run --env-file=./task-list-backend/.env -p "3000:3000" task-list:latest`
+  - `docker build -f task-list-frontend/Dockerfile-prod ./task-list-frontend -t task-list-frontend:latest`
+  - `docker run --env-file=./task-list-frontend/.env -p "3001:3001" task-list-frontend:latest`
 - Go to your browser at `localhost:3000`
 
 ## Notes:
