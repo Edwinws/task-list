@@ -29,11 +29,33 @@
 <script lang="ts">
 import axios from 'axios';
 
+interface Task {
+  id: number;
+  name: string;
+  description: string;
+  dueDate: string;
+  status: string;
+  createdAt: string;
+}
+
+interface Meta {
+  total: number;
+}
+
+export interface DataTableData {
+  tasks: Task[];
+  metas: Meta;
+  current: number;
+  total: number;
+}
+
 export default {
-  data() {
+  data(): DataTableData {
     return {
       tasks: [],
-      metas: {},
+      metas: {
+        total: 0,
+      },
       current: 0,
       total: 0,
     };

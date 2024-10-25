@@ -1,5 +1,5 @@
 <script lang="ts">
-import DataTable from '@/components/DataTable.vue';
+import DataTable from './components/DataTable.vue';
 
 export default {
   components: {
@@ -15,6 +15,4 @@ export default {
 </template>
 
 
-<style scoped>
-
-</style>
+<style scoped></style>
