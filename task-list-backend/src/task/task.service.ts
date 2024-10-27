@@ -11,8 +11,8 @@ import { createTaskFromEntity, Task } from './types/task.model';
 export class TaskService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<TaskFindAllResponse> {
-    const paginate = createPaginator({ page: 1 });
+  async findAll(page: number): Promise<TaskFindAllResponse> {
+    const paginate = createPaginator({ page, perPage: 10 });
 
     const result = await paginate<TaskEntity, Prisma.TaskFindManyArgs>(
       this.prisma.task,

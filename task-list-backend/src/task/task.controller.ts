@@ -2,10 +2,12 @@ import {
   BadRequestException,
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   Param,
   ParseIntPipe,
   Post,
+  Query,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './types/create-task.dto';
@@ -17,8 +19,10 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get()
-  async taskFindAll(): Promise<TaskFindAllResponse> {
-    return this.taskService.findAll();
+  async taskFindAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+  ): Promise<TaskFindAllResponse> {
+    return this.taskService.findAll(page);
   }
 
   @Get(':id')
