@@ -12,7 +12,7 @@
       </div>
       <div>
         <label for="dueDate">Due Date:</label>
-        <input type="date" id="dueDate" v-model="task.dueDate" required />
+        <input type="date" id="dueDate" v-model="task.dueDate" :min="minDueDate" required />
       </div>
       <button type="submit">Create</button>
     </form>
@@ -37,6 +37,7 @@ export default defineComponent({
         description: '',
         dueDate: '',
       } as Task,
+      minDueDate: this.getTomorrowDate(),
     };
   },
   methods: {
@@ -48,6 +49,15 @@ export default defineComponent({
       } catch (error) {
         console.error('Error creating task:', error);
       }
+    },
+    getTomorrowDate(): string {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      const year = tomorrow.getFullYear();
+      const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+      const day = String(tomorrow.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     },
   },
 });
