@@ -1,4 +1,5 @@
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString, MinDate } from 'class-validator';
 import { CreateTaskParam } from './create-task.param';
 
 export class CreateTaskDto {
@@ -10,9 +11,12 @@ export class CreateTaskDto {
   @IsNotEmpty()
   description: string;
 
-  @IsDateString()
   @IsNotEmpty()
-  dueDate: string;
+  @Type(() => Date)
+  @MinDate(new Date(new Date().setHours(0, 0, 0, 0) + 24 * 60 * 60 * 1000), {
+    message: 'dueDate must be tomorrow onwards',
+  })
+  dueDate: Date;
 
   toParam(): CreateTaskParam {
     return {
