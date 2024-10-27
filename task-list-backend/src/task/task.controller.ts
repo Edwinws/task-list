@@ -1,11 +1,14 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
   Param,
   ParseIntPipe,
+  Post,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
+import { CreateTaskDto } from './types/create-task.dto';
 import { TaskFindAllResponse } from './types/task-find-all.response';
 import { Task } from './types/task.model';
 
@@ -28,5 +31,10 @@ export class TaskController {
     }
 
     return task;
+  }
+
+  @Post()
+  async taskCreate(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskService.create(createTaskDto.toParam());
   }
 }
