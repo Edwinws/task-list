@@ -84,16 +84,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-table {
-  width: 200%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 8px 12px;
-  text-align: left;
-}
-</style>
