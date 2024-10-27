@@ -106,6 +106,13 @@ export default {
 </script>
 
 <style scoped>
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border: 0.5px solid #ddd;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
