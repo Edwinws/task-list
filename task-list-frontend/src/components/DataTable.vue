@@ -23,6 +23,11 @@
         </tr>
       </tbody>
     </table>
+    <div class="pagination">
+      <button @click="goToPage(metas.prev)" :disabled="!metas.prev">Previous</button>
+      <span>Page {{ metas.currentPage }} of {{ metas.lastPage }}</span>
+      <button @click="goToPage(metas.next)" :disabled="!metas.next">Next</button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +45,11 @@ interface Task {
 
 interface Meta {
   total: number;
+  lastPage: number;
+  currentPage: number;
+  perPage: number;
+  prev: number | null;
+  next: number | null;
 }
 
 export interface DataTableData {
@@ -55,6 +65,11 @@ export default {
       tasks: [],
       metas: {
         total: 0,
+        lastPage: 1,
+        currentPage: 1,
+        perPage: 10,
+        prev: null,
+        next: null,
       },
       current: 0,
       total: 0,
@@ -64,14 +79,19 @@ export default {
     this.fetchData(); // Fetch data when component is mounted
   },
   methods: {
-    async fetchData() {
+    async fetchData(page = 1) {
       try {
-        const response = await axios.get(import.meta.env.VITE_BACKEND_BASE_URL + "/tasks");
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/tasks`, {
+          params: { page },
+        });
         this.tasks = response.data.data;
         this.metas = response.data.meta;
       } catch (error) {
         console.error('Error fetching data:', error);
       }
+    },
+    goToPage(page: number | null) {
+      this.fetchData(page ?? 1);
     },
   },
   computed: {
@@ -84,3 +104,16 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  margin: 0 0.5rem;
+}
+</style>
