@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import CreateTask from '../components/CreateTask.vue';
+import CreateTask from '../components/CreateEditTask.vue';
 // import DataTable from '../components/DataTable.vue';
 import HomeView from '../views/HomeView.vue';
 

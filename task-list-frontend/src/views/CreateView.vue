@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CreateTask from '../components/CreateTask.vue'
+import CreateTask from '../components/CreateEditTask.vue'
 </script>
 
 <template>
