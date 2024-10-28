@@ -4,7 +4,8 @@ import { createPaginator } from 'prisma-pagination';
 import { PrismaService } from '../prisma.service';
 import { CreateTaskParam } from './types/create-task.param';
 import { TaskFindAllResponse } from './types/task-find-all.response';
-import { createTaskFromEntity, Task } from './types/task.model';
+import { Task, taskFromEntity } from './types/task.model';
+import { UpdateTaskParam } from './types/update-task.param';
 
 // TODO: Create Repository layer
 @Injectable()
@@ -31,7 +32,7 @@ export class TaskService {
     const response: TaskFindAllResponse = { data: [], meta: result.meta };
 
     for (const v of result.data) {
-      response.data.push(createTaskFromEntity(v));
+      response.data.push(taskFromEntity(v));
     }
 
     return response;
@@ -48,7 +49,7 @@ export class TaskService {
       return null;
     }
 
-    return createTaskFromEntity(taskEntity);
+    return taskFromEntity(taskEntity);
   }
 
   async create(param: CreateTaskParam): Promise<Task> {
@@ -63,6 +64,23 @@ export class TaskService {
       },
     });
 
-    return createTaskFromEntity(taskEntity);
+    return taskFromEntity(taskEntity);
+  }
+
+  async update(param: UpdateTaskParam): Promise<Task> {
+    // TODO: Validate param
+
+    const taskEntity = await this.prisma.task.update({
+      where: {
+        id: param.id,
+      },
+      data: {
+        name: param.name,
+        description: param.description,
+        dueDate: param.dueDate,
+      },
+    });
+
+    return taskFromEntity(taskEntity);
   }
 }

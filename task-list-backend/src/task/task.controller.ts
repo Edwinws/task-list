@@ -7,12 +7,14 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './types/create-task.dto';
 import { TaskFindAllResponse } from './types/task-find-all.response';
 import { Task } from './types/task.model';
+import { UpdateTaskDto } from './types/update-task.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -42,5 +44,13 @@ export class TaskController {
   @Post()
   async taskCreate(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
     return this.taskService.create(createTaskDto.toParam());
+  }
+
+  @Put(':id')
+  async taskUpdate(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateTaskDto: UpdateTaskDto,
+  ): Promise<Task> {
+    return this.taskService.update(updateTaskDto.toParam(id));
   }
 }

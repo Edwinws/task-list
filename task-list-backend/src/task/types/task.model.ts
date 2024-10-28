@@ -16,7 +16,7 @@ export class Task {
   updatedAt: Date;
 }
 
-export function createTaskFromEntity(taskEntity: TaskEntity): Task {
+export function taskFromEntity(taskEntity: TaskEntity): Task {
   const task = new Task();
   task.id = taskEntity.id;
   task.name = taskEntity.name;
