@@ -5,11 +5,11 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Name</th>
+          <th @click="sortByCol('name')">Name</th>
           <th>Description</th>
-          <th>Due Date</th>
+          <th @click="sortByCol('dueDate')">Due Date</th>
           <th>Status</th>
-          <th>Created At</th>
+          <th @click="sortByCol('createdAt')">Created At</th>
         </tr>
       </thead>
       <tbody>
@@ -57,6 +57,8 @@ export interface DataTableData {
   metas: Meta;
   current: number;
   total: number;
+  sortOrder: 'asc' | 'desc';
+  sortBy: string;
 }
 
 export default {
@@ -73,6 +75,8 @@ export default {
       },
       current: 0,
       total: 0,
+      sortOrder: 'desc',
+      sortBy: 'id',
     };
   },
   mounted() {
@@ -82,7 +86,7 @@ export default {
     async fetchData(page = 1) {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/tasks`, {
-          params: { page },
+          params: { page, sortBy: this.sortBy, sortOrder: this.sortOrder },
         });
         this.tasks = response.data.data;
         this.metas = response.data.meta;
@@ -93,6 +97,11 @@ export default {
     goToPage(page: number | null) {
       this.fetchData(page ?? 1);
     },
+    sortByCol(column: string) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      this.sortBy = column;
+      this.fetchData(this.metas.currentPage);
+    },
   },
   computed: {
     currentPageTasks(): number {
@@ -102,15 +111,24 @@ export default {
       return this.metas.total;
     },
   },
-}
+};
 </script>
 
 <style scoped>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
 th,
 td {
   padding: 8px;
   text-align: left;
-  border: 0.5px solid #ddd;
+  border: 1px solid #ddd;
+}
+
+th {
+  cursor: pointer;
 }
 
 .pagination {
