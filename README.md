@@ -25,3 +25,21 @@ Run these:
 ## Notes:
 
 - I've commited the .env file to simplify running the application locally
+
+## Commands
+
+### Backend
+
+#### To sync and create migration (if required) after updating schema.prisma
+
+```
+docker exec -it task-list-backend-1 sh
+db:migrate-dev
+```
+
+#### To reset DB and rerun all migrations (deletes all data)
+
+```
+docker exec -it task-list-backend-1 sh
+db:reset
+```

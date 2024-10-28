@@ -7,7 +7,7 @@ services:
       - mysql:/var/lib/mysql/
     ports:
       - "3307:3306"
-  task-list:
+  backend:
     build:
       dockerfile: Dockerfile
       context: ./task-list-backend
@@ -21,13 +21,13 @@ services:
     volumes:
       - ./task-list-backend:/app
     command: ["sh", "-c", "pnpm run db:generate && pnpm run start:dev"]
-  task-list-frontend:
+  frontend:
     build:
       dockerfile: Dockerfile
       context: ./task-list-frontend
       target: development
     links:
-      - task-list
+      - backend
     ports:
       - "3001:3001"
     volumes:
