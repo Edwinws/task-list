@@ -21,8 +21,10 @@ export class TaskController {
   @Get()
   async taskFindAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('sortBy') sortBy: string,
+    @Query('sortOrder') sortOrder: 'asc' | 'desc',
   ): Promise<TaskFindAllResponse> {
-    return this.taskService.findAll(page);
+    return this.taskService.findAll(page, sortBy, sortOrder);
   }
 
   @Get(':id')

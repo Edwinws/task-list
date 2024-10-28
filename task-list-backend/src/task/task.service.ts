@@ -11,14 +11,19 @@ import { createTaskFromEntity, Task } from './types/task.model';
 export class TaskService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(page: number): Promise<TaskFindAllResponse> {
+  // TODO: move params to class
+  async findAll(
+    page: number,
+    sortBy: string = 'id',
+    sortOrder: 'asc' | 'desc' = 'asc',
+  ): Promise<TaskFindAllResponse> {
     const paginate = createPaginator({ page, perPage: 10 });
 
     const result = await paginate<TaskEntity, Prisma.TaskFindManyArgs>(
       this.prisma.task,
       {
         orderBy: {
-          id: 'desc',
+          [sortBy]: sortOrder,
         },
       },
     );

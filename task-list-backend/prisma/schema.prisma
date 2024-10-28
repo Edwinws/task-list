@@ -18,5 +18,7 @@ model Task {
 
   @@index([createdAt(sort: Desc)])
   @@index([updatedAt(sort: Desc)])
+  @@index([dueDate(sort: Desc)])
+  @@index([name]) // TODO: Text index for searching
   @@map("tasks")
 }
