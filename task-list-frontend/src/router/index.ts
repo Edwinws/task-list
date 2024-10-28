@@ -16,6 +16,12 @@ const router = createRouter({
       name: 'CreateTask',
       component: CreateTask,
     },
+    {
+      path: '/edit/:id',
+      name: 'EditTask',
+      component: CreateTask,
+      props: true,
+    }
   ],
 })
 

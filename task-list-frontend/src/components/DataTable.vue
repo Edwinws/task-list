@@ -4,12 +4,13 @@
     <table border="1">
       <thead>
         <tr>
-          <th>ID</th>
+          <th @click="sortByCol('id')">ID</th>
           <th @click="sortByCol('name')">Name</th>
           <th>Description</th>
           <th @click="sortByCol('dueDate')">Due Date</th>
           <th>Status</th>
           <th @click="sortByCol('createdAt')">Created At</th>
+          <th>Edit</th>
         </tr>
       </thead>
       <tbody>
@@ -20,6 +21,7 @@
           <td>{{ task.dueDate }}</td>
           <td>{{ task.status }}</td>
           <td>{{ task.createdAt }}</td>
+          <td><button @click="editTask(task.id)">Edit</button></td>
         </tr>
       </tbody>
     </table>
@@ -101,6 +103,9 @@ export default {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
       this.sortBy = column;
       this.fetchData(this.metas.currentPage);
+    },
+    editTask(id: number) {
+      this.$router.push({ name: 'EditTask', params: { id } });
     },
   },
   computed: {
