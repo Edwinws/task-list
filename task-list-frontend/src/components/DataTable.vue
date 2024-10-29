@@ -3,7 +3,7 @@
     <h1>Task List - Showing {{ currentPageTasks }} of {{ totalTasks }} tasks</h1>
     <div class="dev-tools">
       <input type="text" v-model="searchQuery" @input="search" placeholder="Search task" />
-      <button @click="seedData" class="seed-button">Seed Data</button>
+      <button @click="seedData" class="seed-button" :disabled="isSeeding">Seed Data</button>
       <button @click="deleteAllData">Delete all data</button>
 
     </div>
@@ -69,6 +69,7 @@ export interface DataTableData {
   sortBy: string;
   searchQuery: string;
   page: number;
+  isSeeding: boolean;
 }
 
 export default {
@@ -89,6 +90,7 @@ export default {
       sortBy: 'id',
       searchQuery: '',
       page: 1,
+      isSeeding: false,
     };
   },
   mounted() {
@@ -136,11 +138,15 @@ export default {
       return `${dateObj.getFullYear()}-${month}-${day} ${hours}:${minutes}`;
     },
     async seedData() {
+      this.isSeeding = true;
+
       try {
         await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/tasks/seed`);
         this.fetchData();
       } catch (error) {
         console.error('Error seeding data:', error);
+      } finally {
+        this.isSeeding = false;
       }
     },
     async deleteAllData() {
