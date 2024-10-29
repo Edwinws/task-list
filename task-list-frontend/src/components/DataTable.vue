@@ -18,9 +18,9 @@
           <td>{{ task.id }}</td>
           <td>{{ task.name }}</td>
           <td>{{ task.description }}</td>
-          <td>{{ task.dueDate }}</td>
+          <td>{{ formatDate(task.dueDate, false) }}</td>
           <td>{{ task.status }}</td>
-          <td>{{ task.createdAt }}</td>
+          <td>{{ formatDate(task.createdAt) }}</td>
           <td><button @click="editTask(task.id)">Edit</button></td>
         </tr>
       </tbody>
@@ -106,6 +106,19 @@ export default {
     },
     editTask(id: number) {
       this.$router.push({ name: 'EditTask', params: { id } });
+    },
+    formatDate(date: string, includeTime = true): string {
+      const dateObj = new Date(Number(date));
+      const month = dateObj.getMonth().toString().padStart(2, '0');
+      const day = dateObj.getDay().toString().padStart(2, '0');
+      const hours = dateObj.getHours().toString().padStart(2, '0');
+      const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+
+      if (!includeTime) {
+        return `${dateObj.getFullYear()}-${month}-${day}`;
+      }
+
+      return `${dateObj.getFullYear()}-${month}-${day} ${hours}:${minutes}`;
     },
   },
   computed: {
