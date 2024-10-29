@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Task List - Showing {{ currentPageTasks }} of {{ totalTasks }} tasks</h1>
+    <input type="text" v-model="searchQuery" @input="search" placeholder="Search task" />
     <table border="1">
       <thead>
         <tr>
@@ -26,9 +27,9 @@
       </tbody>
     </table>
     <div class="pagination">
-      <button @click="goToPage(metas.prev)" :disabled="!metas.prev">Previous</button>
+      <button @click="goToPage(metas.prev ?? 1)" :disabled="!metas.prev">Previous</button>
       <span>Page {{ metas.currentPage }} of {{ metas.lastPage }}</span>
-      <button @click="goToPage(metas.next)" :disabled="!metas.next">Next</button>
+      <button @click="goToPage(metas.next ?? 1)" :disabled="!metas.next">Next</button>
     </div>
   </div>
 </template>
@@ -61,6 +62,8 @@ export interface DataTableData {
   total: number;
   sortOrder: 'asc' | 'desc';
   sortBy: string;
+  searchQuery: string;
+  page: number;
 }
 
 export default {
@@ -79,16 +82,18 @@ export default {
       total: 0,
       sortOrder: 'desc',
       sortBy: 'id',
+      searchQuery: '',
+      page: 1,
     };
   },
   mounted() {
     this.fetchData(); // Fetch data when component is mounted
   },
   methods: {
-    async fetchData(page = 1) {
+    async fetchData(page: number = 1) {
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}/tasks`, {
-          params: { page, sortBy: this.sortBy, sortOrder: this.sortOrder },
+          params: { page, sortBy: this.sortBy, sortOrder: this.sortOrder, search: this.searchQuery },
         });
         this.tasks = response.data.data;
         this.metas = response.data.meta;
@@ -96,8 +101,13 @@ export default {
         console.error('Error fetching data:', error);
       }
     },
-    goToPage(page: number | null) {
-      this.fetchData(page ?? 1);
+    goToPage(page: number = 1) {
+      this.page = page;
+      this.fetchData(page);
+    },
+    search(e: Event) { // TODO: add debounce
+      this.searchQuery = (e.target as HTMLInputElement).value;
+      this.fetchData();
     },
     sortByCol(column: string) {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
