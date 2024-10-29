@@ -11,6 +11,7 @@ Run these:
 
 - `cd task-list-backend && pnpm i && cd ../task-list-frontend && pnpm i && cd ..`
 - `docker compose up`
+- go to http://localhost:3001 on your browser
 
 ## Start (Production build)
 
