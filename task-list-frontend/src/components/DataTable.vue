@@ -1,7 +1,12 @@
 <template>
   <div>
     <h1>Task List - Showing {{ currentPageTasks }} of {{ totalTasks }} tasks</h1>
-    <input type="text" v-model="searchQuery" @input="search" placeholder="Search task" />
+    <div class="dev-tools">
+      <input type="text" v-model="searchQuery" @input="search" placeholder="Search task" />
+      <button @click="seedData" class="seed-button">Seed Data</button>
+      <button @click="deleteAllData">Delete all data</button>
+
+    </div>
     <table border="1">
       <thead>
         <tr>
@@ -130,6 +135,22 @@ export default {
 
       return `${dateObj.getFullYear()}-${month}-${day} ${hours}:${minutes}`;
     },
+    async seedData() {
+      try {
+        await axios.post(`${import.meta.env.VITE_BACKEND_BASE_URL}/tasks/seed`);
+        this.fetchData();
+      } catch (error) {
+        console.error('Error seeding data:', error);
+      }
+    },
+    async deleteAllData() {
+      try {
+        await axios.delete(`${import.meta.env.VITE_BACKEND_BASE_URL}/tasks`);
+        this.fetchData();
+      } catch (error) {
+        console.error('Error deleting data:', error);
+      }
+    }
   },
   computed: {
     currentPageTasks(): number {
@@ -168,5 +189,20 @@ th {
 
 .pagination button {
   margin: 0 0.5rem;
+}
+
+.dev-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.seed-button {
+  margin-left: auto;
+}
+
+.dev-tools button {
+  margin-right: 3px;
 }
 </style>
