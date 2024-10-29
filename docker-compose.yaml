@@ -20,7 +20,7 @@ services:
       - mysql
     volumes:
       - ./task-list-backend:/app
-    command: ["sh", "-c", "pnpm run db:generate && pnpm run start:dev"]
+    command: ["sh", "-c", "pnpm run db:migrate-deploy && pnpm run start:dev"]
   frontend:
     build:
       dockerfile: Dockerfile
