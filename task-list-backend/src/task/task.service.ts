@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Task as TaskEntity } from '@prisma/client';
+import * as dayjs from 'dayjs';
 import { createPaginator } from 'prisma-pagination';
 import { PrismaService } from '../prisma.service';
 import { CreateTaskParam } from './types/create-task.param';
@@ -82,5 +83,32 @@ export class TaskService {
     });
 
     return taskFromEntity(taskEntity);
+  }
+
+  async seedData(count = 5000): Promise<void> {
+    const randRange = (min: number, max: number): number => {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    const now = new Date();
+
+    const dueDate = dayjs().set('hour', 0).set('minute', 0).set('second', 0);
+
+    for (let i = 0; i < count; i++) {
+      const randomStr = Math.random().toString(36).substring(3, 15);
+
+      await this.prisma.task.create({
+        data: {
+          name: `${randomStr}`,
+          description: `${randomStr}`,
+          dueDate: dueDate.add(randRange(-1, 15), 'day').toDate(),
+          createdAt: now,
+        },
+      });
+    }
+  }
+
+  async deleteAllData(): Promise<void> {
+    await this.prisma.$queryRaw`TRUNCATE tasks`;
   }
 }

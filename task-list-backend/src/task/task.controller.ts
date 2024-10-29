@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   DefaultValuePipe,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -65,5 +66,15 @@ export class TaskController {
     @Body() updateTaskDto: UpdateTaskDto,
   ): Promise<Task> {
     return this.taskService.update(updateTaskDto.toParam(id));
+  }
+
+  @Post('seed')
+  async seedData(): Promise<void> {
+    await this.taskService.seedData();
+  }
+
+  @Delete()
+  async deleteAllData(): Promise<void> {
+    await this.taskService.deleteAllData();
   }
 }
