@@ -13,7 +13,7 @@ import {
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './types/create-task.dto';
 import { TaskFindAllResponse } from './types/task-find-all.response';
-import { Task } from './types/task.model';
+import { Task, taskFromEntity } from './types/task.model';
 import { UpdateTaskDto } from './types/update-task.dto';
 
 @Controller('tasks')
@@ -26,7 +26,14 @@ export class TaskController {
     @Query('sortBy') sortBy: string,
     @Query('sortOrder') sortOrder: 'asc' | 'desc',
   ): Promise<TaskFindAllResponse> {
-    return this.taskService.findAll(page, sortBy, sortOrder);
+    const result = await this.taskService.findAll(page, sortBy, sortOrder);
+    const response: TaskFindAllResponse = { data: [], meta: result.meta };
+
+    for (const k in result.data) {
+      response.data.push(taskFromEntity(result.data[k]));
+    }
+
+    return response;
   }
 
   @Get(':id')

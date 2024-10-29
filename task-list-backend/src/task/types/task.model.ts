@@ -7,13 +7,13 @@ export class Task {
 
   description: string;
 
-  dueDate: Date;
+  dueDate: string;
 
   status: string;
 
-  createdAt: Date;
+  createdAt: string;
 
-  updatedAt: Date;
+  updatedAt: string;
 }
 
 export function taskFromEntity(taskEntity: TaskEntity): Task {
@@ -21,10 +21,14 @@ export function taskFromEntity(taskEntity: TaskEntity): Task {
   task.id = taskEntity.id;
   task.name = taskEntity.name;
   task.description = taskEntity.description;
-  task.dueDate = taskEntity.dueDate;
+  task.dueDate = formatTaskDate(taskEntity.dueDate);
   task.status = getTaskStatus(taskEntity.dueDate);
-  task.createdAt = taskEntity.createdAt;
-  task.updatedAt = taskEntity.updatedAt;
+  task.createdAt = formatTaskDate(taskEntity.createdAt);
+  task.updatedAt = formatTaskDate(taskEntity.updatedAt);
 
   return task;
+}
+
+function formatTaskDate(date: Date): string {
+  return date.getTime().toString();
 }

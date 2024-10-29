@@ -3,7 +3,7 @@ import { Prisma, Task as TaskEntity } from '@prisma/client';
 import { createPaginator } from 'prisma-pagination';
 import { PrismaService } from '../prisma.service';
 import { CreateTaskParam } from './types/create-task.param';
-import { TaskFindAllResponse } from './types/task-find-all.response';
+import { PaginationResponse } from './types/pagination.response';
 import { Task, taskFromEntity } from './types/task.model';
 import { UpdateTaskParam } from './types/update-task.param';
 
@@ -17,7 +17,7 @@ export class TaskService {
     page: number,
     sortBy: string = 'id',
     sortOrder: 'asc' | 'desc' = 'asc',
-  ): Promise<TaskFindAllResponse> {
+  ): Promise<PaginationResponse<TaskEntity>> {
     const paginate = createPaginator({ page, perPage: 10 });
 
     const result = await paginate<TaskEntity, Prisma.TaskFindManyArgs>(
@@ -29,13 +29,7 @@ export class TaskService {
       },
     );
 
-    const response: TaskFindAllResponse = { data: [], meta: result.meta };
-
-    for (const v of result.data) {
-      response.data.push(taskFromEntity(v));
-    }
-
-    return response;
+    return result;
   }
 
   async findOne(id: number): Promise<Task | null> {
