@@ -17,6 +17,7 @@ export class TaskService {
     page: number,
     sortBy: string = 'id',
     sortOrder: 'asc' | 'desc' = 'asc',
+    search: string,
   ): Promise<PaginationResponse<TaskEntity>> {
     const paginate = createPaginator({ page, perPage: 10 });
 
@@ -25,6 +26,11 @@ export class TaskService {
       {
         orderBy: {
           [sortBy]: sortOrder,
+        },
+        where: {
+          name: {
+            contains: search,
+          },
         },
       },
     );

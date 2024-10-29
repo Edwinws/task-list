@@ -25,8 +25,14 @@ export class TaskController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('sortBy') sortBy: string,
     @Query('sortOrder') sortOrder: 'asc' | 'desc',
+    @Query('search') search: string,
   ): Promise<TaskFindAllResponse> {
-    const result = await this.taskService.findAll(page, sortBy, sortOrder);
+    const result = await this.taskService.findAll(
+      page,
+      sortBy,
+      sortOrder,
+      search,
+    );
     const response: TaskFindAllResponse = { data: [], meta: result.meta };
 
     for (const k in result.data) {
